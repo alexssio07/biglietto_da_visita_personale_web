@@ -26,8 +26,6 @@ import {
   FaLink,
   FaTwitter,
   FaDiscord,
-  FaChevronLeft,
-  FaChevronRight,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "./App.css";
@@ -37,7 +35,9 @@ import portfolioImage from "./assets/anteprima_sito_web.png";
 // Professionalità che cambiano
 const professions = [
   "Full Stack Developer",
-  "Python Programmer",
+  "Back-end Developer",
+  "Front-end Developer",
+  "Videogame Developer",
   "3D Printing Creator",
   "Content Creator",
   "Discord Community Manager",
@@ -47,7 +47,7 @@ const professions = [
 const projects = [
   {
     id: 1,
-    title: "Discord Bot",
+    title: "Er Vongola Bot",
     description:
       "Un bot Discord personalizzato sviluppato in Python con funzionalità avanzate per la gestione della community.",
     image:
