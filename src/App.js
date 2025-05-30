@@ -12,15 +12,11 @@ import {
   CardMedia,
   Chip,
   Grid,
-  Link,
-  TextField,
   Paper,
-  Divider,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
-  FaGithub,
   FaLinkedin,
   FaEnvelope,
   FaYoutube,
@@ -30,10 +26,13 @@ import {
   FaLink,
   FaTwitter,
   FaDiscord,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "./App.css";
 import profileImage from "./assets/Immagine_profilo.jpg";
+import portfolioImage from "./assets/anteprima_sito_web.png";
 
 // Professionalità che cambiano
 const professions = [
@@ -71,10 +70,10 @@ const projects = [
   },
   {
     id: 2,
-    title: "Portfolio Personale",
+    title: "Sito web Personale",
     description:
       "Un portfolio personale sviluppato con React e Material UI per mostrare i miei progetti e competenze.",
-    image: "./assets/anteprima_sito_web.png",
+    image: portfolioImage,
     technologies: [
       "React",
       "Material UI",
@@ -94,6 +93,77 @@ const projects = [
   //   technologies: ["Blender", "Fusion 360", "3D Printing"],
   //   link: "https://github.com/yourusername/3d-models",
   // },
+];
+
+// Progetti 3D - sostituisci con i tuoi modelli 3D reali
+const projects3D = [
+  {
+    id: 1,
+    title: "Supporto per Smartphone",
+    description:
+      "Un supporto ergonomico per smartphone stampato in 3D, progettato per mantenere il telefono ad un'angolazione ottimale durante le videochiamate o mentre si guardano video.",
+    image: "https://via.placeholder.com/300x200",
+    technologies: ["PLA", "Anycubic Kobra S1", "Fusion 360"],
+    link: "#",
+  },
+  {
+    id: 2,
+    title: "Organizzatore Scrivania",
+    description:
+      "Sistema modulare di organizzazione per scrivania con scomparti per penne, matite e altri accessori da ufficio. Personalizzabile in base alle esigenze specifiche.",
+    image: "https://via.placeholder.com/300x200",
+    technologies: ["PETG", "Anycubic Kobra S1", "Blender"],
+    link: "#",
+  },
+  {
+    id: 3,
+    title: "Vaso Geometrico",
+    description:
+      "Vaso decorativo con pattern geometrico complesso, impossibile da realizzare con metodi tradizionali. Perfetto per piante grasse e piccoli arbusti.",
+    image: "https://via.placeholder.com/300x200",
+    technologies: ["PLA", "Anycubic Kobra S1", "Tinkercad"],
+    link: "#",
+  },
+];
+
+// Aggiungi questo array di immagini dopo gli altri array di progetti
+const galleryImages = [
+  {
+    id: 1,
+    title: "Progetto 1",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 1",
+  },
+  {
+    id: 2,
+    title: "Progetto 2",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 2",
+  },
+  {
+    id: 3,
+    title: "Progetto 3",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 3",
+  },
+  {
+    id: 4,
+    title: "Progetto 4",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 4",
+  },
+  {
+    id: 5,
+    title: "Progetto 5",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 5",
+  },
+  {
+    id: 6,
+    title: "Progetto 6",
+    image: "https://via.placeholder.com/600x400",
+    description: "Descrizione breve del progetto 6",
+  },
 ];
 
 function App() {
@@ -123,6 +193,8 @@ function App() {
         setActiveSection("about");
       } else if (scrollPosition < windowHeight * 2.5) {
         setActiveSection("projects");
+      } else if (scrollPosition < windowHeight * 3.5) {
+        setActiveSection("projects3d");
       } else {
         setActiveSection("contact");
       }
@@ -132,6 +204,36 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Funzione personalizzata per l'effetto di digitazione
+  const useTypewriter = (text, speed = 800) => {
+    const [displayText, setDisplayText] = useState("");
+
+    useEffect(() => {
+      let i = 0;
+      const typingInterval = setInterval(() => {
+        if (i < text.length) {
+          setDisplayText((prevText) => prevText + text.charAt(i));
+          i++;
+        } else {
+          clearInterval(typingInterval);
+        }
+      }, speed);
+
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }, [text, speed]);
+
+    return displayText;
+  };
+
+  // Nuovo componente per l'effetto di digitazione - si può utilizzare come <Typewriter text="Testo da digitare" speed={100} /> */}
+  const Typewriter = ({ text, speed }) => {
+    const displayText = useTypewriter(text, speed);
+    return <>{displayText}</>;
+  };
+  // Riferimento per lo scroller della galleria
+  const galleryScrollRef = React.useRef(null);
   // Funzione per scorrere alla sezione
   const scrollToSection = (section) => {
     const element = document.getElementById(section);
@@ -139,6 +241,19 @@ function App() {
       element.scrollIntoView({ behavior: "smooth" });
     }
     setActiveSection(section);
+  };
+  // Funzione per scorrere la galleria a sinistra
+  const scrollGalleryLeft = () => {
+    if (galleryScrollRef.current) {
+      galleryScrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
+    }
+  };
+
+  // Funzione per scorrere la galleria a destra
+  const scrollGalleryRight = () => {
+    if (galleryScrollRef.current) {
+      galleryScrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
+    }
   };
 
   return (
@@ -148,7 +263,13 @@ function App() {
         position="fixed"
         sx={{ bgcolor: "transparent", boxShadow: "none" }}
       >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
+            py: { xs: 1, sm: 0 },
+          }}
+        >
           <Typography
             variant="h5"
             sx={{ fontWeight: "bold", color: "#90caf9" }}
@@ -156,28 +277,46 @@ function App() {
             Portfolio
           </Typography>
 
-          <Box sx={{ display: "flex", gap: 3 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: { xs: 1, sm: 2, md: 3 },
+              flexWrap: { xs: "nowrap", sm: "nowrap" },
+              justifyContent: "space-between",
+            }}
+          >
             <Button
               color={activeSection === "home" ? "primary" : "inherit"}
               onClick={() => scrollToSection("home")}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
               Home
             </Button>
             <Button
               color={activeSection === "about" ? "primary" : "inherit"}
               onClick={() => scrollToSection("about")}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
               About
             </Button>
             <Button
               color={activeSection === "projects" ? "primary" : "inherit"}
               onClick={() => scrollToSection("projects")}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
               Projects
             </Button>
             <Button
+              color={activeSection === "projects3d" ? "primary" : "inherit"}
+              onClick={() => scrollToSection("projects3d")}
+              sx={{ fontSize: { xs: "0.6rem", sm: "0.875rem" } }}
+            >
+              Progetti 3D
+            </Button>
+            <Button
               color={activeSection === "contact" ? "primary" : "inherit"}
               onClick={() => scrollToSection("contact")}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
               Contact
             </Button>
@@ -199,7 +338,17 @@ function App() {
         <Container
           maxWidth={false}
           sx={{
-            width: "90%",
+            width: "100%",
+            maxWidth: "100%",
+            height: "100%",
+            px: { xs: 2, sm: 3, md: 4, lg: 6 },
+            py: { xs: 4, sm: 5, md: 6 },
+            mx: { lg: 28 },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "stretch",
+            overflow: "hidden",
           }}
         >
           <Grid container spacing={6} alignItems="center">
@@ -209,8 +358,11 @@ function App() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <Typography variant="h6" sx={{ color: "#90caf9", mb: 2 }}>
-                  Ciao, sono
+                <Typography
+                  variant="h6"
+                  sx={{ color: "#90caf9", mb: 2, height: "40px" }}
+                >
+                  <Typewriter text="Ciiao, sono..." speed={160} />
                 </Typography>
                 <Typography variant="h2" sx={{ fontWeight: "bold", mb: 1 }}>
                   Alessio Chiocchetti
@@ -348,8 +500,11 @@ function App() {
           alignItems: "center",
           py: 1,
           background: "linear-gradient(to bottom, #121212, #1a237e)",
-          // backgroundImage: "url(/src/assets/WallpaperSite1.png)",
+          // backgroundImage:
+          //   "url(/src/assets/Wallpaper_portfolio_stilizzato.png)",
           // backgroundRepeat: "no-repeat",
+          // backgroundSize: "cover",
+          // backgroundColor: "rgba(0, 0, 0, 0.2)",
         }}
       >
         <Container>
@@ -377,7 +532,17 @@ function App() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 4, fontSize: "22px", textAlign: "justify" }}
+                  sx={{
+                    mb: 4,
+                    textAlign: "justify",
+                    fontSize: {
+                      xs: "17px", // For extra-small screens
+                      sm: "17.5px", // For small screens
+                      md: "18px", // For medium screens / tablets
+                      lg: "20px", // For large screens
+                      xl: "21px", // For extra-large screens
+                    },
+                  }}
                 >
                   Come sviluppatore full stack, mi dedico alla creazione di
                   applicazioni web e mobile innovative e scalabili. La mia
@@ -390,7 +555,17 @@ function App() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 4, fontSize: "22px", textAlign: "justify" }}
+                  sx={{
+                    mb: 4,
+                    fontSize: {
+                      xs: "17px", // For extra-small screens
+                      sm: "17.5px", // For small screens
+                      md: "18px", // For medium screens / tablets
+                      lg: "20px", // For large screens
+                      xl: "21px", // For extra-large screens
+                    },
+                    textAlign: "justify",
+                  }}
                 >
                   Mi appassiona particolarmente costruire progetti da zero: che
                   siano bot, programmi, software, siti web o videogiochi, amo
@@ -402,7 +577,17 @@ function App() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 4, fontSize: "22px", textAlign: "justify" }}
+                  sx={{
+                    mb: 4,
+                    fontSize: {
+                      xs: "17px", // For extra-small screens
+                      sm: "17.5px", // For small screens
+                      md: "18px", // For medium screens / tablets
+                      lg: "20px", // For large screens
+                      xl: "21px", // For extra-large screens
+                    },
+                    textAlign: "justify",
+                  }}
                 >
                   Un esempio concreto della mia passione per la creazione è il
                   sistema integrato che ho sviluppato per la mia community:
@@ -418,7 +603,17 @@ function App() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 4, fontSize: "22px", textAlign: "justify" }}
+                  sx={{
+                    mb: 4,
+                    fontSize: {
+                      xs: "17px", // For extra-small screens
+                      sm: "17.5px", // For small screens
+                      md: "18px", // For medium screens / tablets
+                      lg: "20px", // For large screens
+                      xl: "21px", // For extra-large screens
+                    },
+                    textAlign: "justify",
+                  }}
                 >
                   Sono costantemente ispirato da nuove idee per progetti
                   innovativi, anche se non sempre riesco a portarli tutti a
@@ -468,7 +663,16 @@ function App() {
                 </Box>
                 <Typography
                   variant="body1"
-                  sx={{ fontSize: "20px", textAlign: "justify" }}
+                  sx={{
+                    fontSize: {
+                      xs: "17px", // For extra-small screens
+                      sm: "17.5px", // For small screens
+                      md: "18px", // For medium screens / tablets
+                      lg: "20px", // For large screens
+                      xl: "21px", // For extra-large screens
+                    },
+                    textAlign: "justify",
+                  }}
                 >
                   Sono sempre alla ricerca di nuove tecnologie da imparare e
                   nuovi progetti stimolanti su cui lavorare. La mia filosofia è
@@ -588,6 +792,190 @@ function App() {
         </Container>
       </Box>
 
+      {/* Nuova Sezione Progetti 3D */}
+      <Box
+        id="projects3d"
+        sx={{
+          minHeight: "100vh",
+          py: 10,
+          background: "linear-gradient(to bottom, #121212, #1a237e)",
+        }}
+      >
+        <Container>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+                mb: 6,
+                textAlign: "center",
+                color: "#90caf9",
+              }}
+            >
+              I Miei Progetti 3D
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 4,
+                textAlign: "center",
+                color: "#e0e0e0",
+                maxWidth: "800px",
+                mx: "auto",
+                fontSize: {
+                  xs: "17px", // For extra-small screens
+                  sm: "17.5px", // For small screens
+                  md: "21px", // For medium screens / tablets
+                  lg: "22px", // For large screens
+                  xl: "23px", // For extra-large screens
+                },
+              }}
+            >
+              Esplora la mia collezione di modelli 3D progettati e stampati con
+              la mia Anycubic Kobra S1. Ogni progetto è stato creato per
+              risolvere problemi specifici o semplicemente per il piacere di
+              creare.
+            </Typography>
+            {/* Galleria orizzontale scrollabile */}
+            <Typography
+              variant="h5"
+              sx={{
+                color: "#00e5ff",
+                fontWeight: "medium",
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                justifyContent: "center",
+                mb: 2,
+              }}
+            >
+              Lavori in corso... Galleria di immagini in arrivo!
+            </Typography>
+            {/* <Box sx={{ position: "relative", width: "100%", mt: 3, mb: 4 }}>
+              <IconButton
+                onClick={scrollGalleryLeft}
+                sx={{
+                  position: "absolute",
+                  left: { xs: -16, sm: -20 },
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: 10,
+                  bgcolor: "rgba(0, 229, 255, 0.2)",
+                  color: "white",
+                  "&:hover": {
+                    bgcolor: "rgba(0, 229, 255, 0.4)",
+                  },
+                  width: { xs: 40, sm: 48 },
+                  height: { xs: 40, sm: 48 },
+                }}
+              >
+                <FaChevronLeft size={24} />
+              </IconButton>
+
+              <Box
+                ref={galleryScrollRef}
+                sx={{
+                  width: "100%",
+                  overflowX: "auto",
+                  display: "flex",
+                  pb: 2,
+                  scrollBehavior: "smooth",
+                  "&::-webkit-scrollbar": {
+                    height: "8px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "rgba(255, 255, 255, 0.05)",
+                    borderRadius: "10px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(0, 229, 255, 0.5)",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 229, 255, 0.7)",
+                    },
+                  },
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 3, px: 2 }}>
+                  {galleryImages.map((item) => (
+                    <Box
+                      key={item.id}
+                      component={motion.div}
+                      whileHover={{ y: -10, scale: 1.03 }}
+                      sx={{
+                        position: "relative",
+                        minWidth: { xs: "280px", sm: "350px", md: "400px" },
+                        height: { xs: "200px", sm: "250px", md: "300px" },
+                        borderRadius: "16px",
+                        overflow: "hidden",
+                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
+                        border: "2px solid rgba(0, 229, 255, 0.3)",
+                        transition: "all 0.3s ease",
+                      }}
+                    >
+                      <Box
+                        component="img"
+                        src={item.image}
+                        alt={item.title}
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          p: 2,
+                          background:
+                            "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)",
+                          color: "white",
+                          transition: "all 0.3s ease",
+                        }}
+                      >
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                          {item.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {item.description}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+
+              <IconButton
+                onClick={scrollGalleryRight}
+                sx={{
+                  position: "absolute",
+                  right: { xs: -16, sm: -20 },
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: 10,
+                  bgcolor: "rgba(0, 229, 255, 0.2)",
+                  color: "white",
+                  "&:hover": {
+                    bgcolor: "rgba(0, 229, 255, 0.4)",
+                  },
+                  width: { xs: 40, sm: 48 },
+                  height: { xs: 40, sm: 48 },
+                }}
+              >
+                <FaChevronRight size={24} />
+              </IconButton>
+            </Box> */}
+          </motion.div>
+        </Container>
+      </Box>
+
       {/* Sezione Contact */}
       <Box
         id="contact"
@@ -596,7 +984,7 @@ function App() {
           display: "flex",
           alignItems: "center",
           py: 10,
-          background: "linear-gradient(to bottom, #121212, #1e3c72)",
+          background: "linear-gradient(to bottom, #1a237e, #1e3c72)",
         }}
       >
         <Container>
