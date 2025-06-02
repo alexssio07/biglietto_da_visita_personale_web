@@ -266,7 +266,11 @@ function App() {
       {/* Menu di navigazione */}
       <AppBar
         position="fixed"
-        sx={{ bgcolor: "transparent", boxShadow: "none" }}
+        sx={{
+          bgcolor: { xs: "rgba(18, 18, 18, 0.9)", sm: "transparent" },
+          boxShadow: "none",
+          backdropFilter: { xs: "blur(10px)", sm: "none" },
+        }}
       >
         <Toolbar
           sx={{
@@ -360,15 +364,17 @@ function App() {
         <Container
           maxWidth={false}
           sx={{
-            width: "100%",
+            width: { lg: "100%", md: "100%", sm: "100%", xs: "auto" },
             maxWidth: "100%",
             height: "100%",
-            px: { xs: 2, sm: 3, md: 4, lg: 6 },
-            py: { xs: 4, sm: 5, md: 6 },
+            px: { xs: 4, sm: 1, md: 3, lg: 6 },
+            mt: { xs: 15, sm: 2, md: 3, lg: 4 },
+            py: { xs: 4, sm: 1, md: 3, lg: 3 },
             mx: { lg: "auto" },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap", lg: "nowrap" },
             alignItems: "stretch",
             overflow: "hidden",
           }}
@@ -377,7 +383,11 @@ function App() {
             container
             spacing={6}
             alignItems="center"
-            sx={{ px: { lg: 8 } }}
+            sx={{
+              px: { lg: 8 },
+              mt: { lg: 6 },
+              width: "100%",
+            }}
           >
             <Grid item lg={12} xs={12} md={6}>
               <motion.div
@@ -391,19 +401,53 @@ function App() {
                 >
                   <Typewriter text={t("home.text_typing")} speed={160} />
                 </Typography>
-                <Typography variant="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: "bold",
+                    mb: 1,
+                    fontSize: {
+                      lg: "60px",
+                      md: "52px",
+                      sm: "45px",
+                      xs: "38px",
+                    },
+                  }}
+                >
                   Alessio Chiocchetti
                 </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                  <Typography variant="h4" sx={{ mr: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mb: 3,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      mr: 1,
+                      fontSize: {
+                        lg: "39px",
+                        md: "30px",
+                        sm: "23px",
+                        xs: "20px",
+                      },
+                    }}
+                  >
                     {t("home.description")}
                   </Typography>
                   <Typography
-                    variant="h4"
                     sx={{
                       color: "#00e5ff",
                       fontWeight: "bold",
-                      minWidth: "500px",
+                      minWidth: "100px",
+                      fontSize: {
+                        lg: "39px",
+                        md: "30px",
+                        sm: "23px",
+                        xs: "22px",
+                      },
                     }}
                   >
                     {professions[professionIndex]}
@@ -416,12 +460,20 @@ function App() {
                   {t("home.header")}
                 </Typography>
 
-                <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+                <Box sx={{ display: "flex", gap: 2, mb: 4, width: "100%" }}>
                   <IconButton
                     component="a"
                     href="https://www.youtube.com/c/Alexssio"
                     target="_blank"
-                    sx={{ color: "#ea4335" }}
+                    sx={{
+                      color: "#ea4335",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaYoutube />
                   </IconButton>
@@ -429,42 +481,90 @@ function App() {
                     component="a"
                     href="https://instagram.com/alexssio_23"
                     target="_blank"
-                    sx={{ color: "#DD2A7B" }}
+                    sx={{
+                      color: "#DD2A7B",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaInstagram />
                   </IconButton>
                   <IconButton
                     component="a"
                     href="https://tiktok.com/@alexssio_23"
-                    sx={{ color: "white" }}
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaTiktok />
                   </IconButton>
                   <IconButton
                     component="a"
                     href="https://discord.com/invite/wJyppMNBUe"
-                    sx={{ color: "#7289da" }}
+                    sx={{
+                      color: "#7289da",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaDiscord />
                   </IconButton>
                   <IconButton
                     component="a"
                     href="https://t.me/alexssio_23"
-                    sx={{ color: "#24A1DE" }}
+                    sx={{
+                      color: "#24A1DE",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaTelegram />
                   </IconButton>
                   <IconButton
                     component="a"
                     href="https://www.threads.com/@alexssio_23"
-                    sx={{ color: "white" }}
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaLink />
                   </IconButton>
                   <IconButton
                     component="a"
                     href="https://x.com/alexssio23"
-                    sx={{ color: "white" }}
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        lg: "46px",
+                        md: "38px",
+                        sm: "32px",
+                        xs: "28px",
+                      },
+                    }}
                   >
                     <FaTwitter />
                   </IconButton>
@@ -493,7 +593,7 @@ function App() {
               item
               xs={12}
               md={6}
-              sx={{ display: { xs: "none", md: "block" } }}
+              sx={{ display: { xs: "block", md: "block" } }}
             >
               <Box
                 component="img"
@@ -502,7 +602,7 @@ function App() {
                 sx={{
                   width: "100%",
                   maxWidth: "1080px",
-                  height: "800px", // 9:16 aspect ratio based on width
+                  height: "auto", // 9:16 aspect ratio based on width
                   objectFit: "cover",
                   borderRadius: "16px",
                   clipPath: "polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)",
@@ -531,7 +631,7 @@ function App() {
           // backgroundColor: "rgba(0, 0, 0, 0.2)",
         }}
       >
-        <Container>
+        <Container sx={{ mt: { lg: 6, md: 3, xs: 1 } }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -541,7 +641,7 @@ function App() {
               variant="h2"
               sx={{
                 fontWeight: "bold",
-                mb: 6,
+                mb: 2,
                 textAlign: "center",
                 color: "#90caf9",
               }}
@@ -551,21 +651,22 @@ function App() {
 
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" sx={{ mb: 3, color: "#00e5ff" }}>
+                <Typography variant="h4" sx={{ mb: 2, color: "#00e5ff" }}>
                   {t("about.subtitle")}
                 </Typography>
                 <Typography
                   variant="body1"
                   sx={{
-                    mb: 4,
+                    mb: 2,
                     textAlign: "justify",
                     fontSize: {
-                      xs: "17px", // For extra-small screens
+                      xs: "16px", // For extra-small screens
                       sm: "17.5px", // For small screens
                       md: "18px", // For medium screens / tablets
                       lg: "20px", // For large screens
                       xl: "21px", // For extra-large screens
                     },
+                    px: "4px",
                   }}
                 >
                   {t("about.description.part_1")}
@@ -573,7 +674,7 @@ function App() {
                 <Typography
                   variant="body1"
                   sx={{
-                    mb: 4,
+                    mb: 2,
                     fontSize: {
                       xs: "17px", // For extra-small screens
                       sm: "17.5px", // For small screens
@@ -589,7 +690,7 @@ function App() {
                 <Typography
                   variant="body1"
                   sx={{
-                    mb: 4,
+                    mb: 2,
                     fontSize: {
                       xs: "17px", // For extra-small screens
                       sm: "17.5px", // For small screens
@@ -605,7 +706,7 @@ function App() {
                 <Typography
                   variant="body1"
                   sx={{
-                    mb: 4,
+                    mb: 2,
                     fontSize: {
                       xs: "17px", // For extra-small screens
                       sm: "17.5px", // For small screens
@@ -621,10 +722,10 @@ function App() {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" sx={{ mb: 3, color: "#00e5ff" }}>
+                <Typography variant="h4" sx={{ mb: 2, color: "#00e5ff" }}>
                   {t("about.subtitle2")}
                 </Typography>
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 4 }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
                   {[
                     "React",
                     "Node.js",
@@ -688,7 +789,7 @@ function App() {
           background: "linear-gradient(to bottom, #1a237e, #121212)",
         }}
       >
-        <Container>
+        <Container sx={{ mt: { lg: 6, md: 3, xs: 1 } }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -737,7 +838,10 @@ function App() {
                       >
                         {project.title}
                       </Typography>
-                      <Typography variant="body1" sx={{ mb: 2 }}>
+                      <Typography
+                        variant="body1"
+                        sx={{ mb: 2, color: "white" }}
+                      >
                         {project.description}
                       </Typography>
                       <Box
