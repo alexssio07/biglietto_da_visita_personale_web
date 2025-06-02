@@ -1,0 +1,43 @@
+{
+    "menu": {
+        "home": "Home",
+        "about": "About Me",
+        "projects": "Projects",
+        "projects3d": "Progetti 3D",
+        "contact": "Contact"
+    },
+    "home": {
+        "title": "Portfolio",
+        "text_typing": "Heello, I'm...",
+        "header": "Sometimes I'm a frontend and sometimes I'm a backend developer... I love technology, videogames, 3D printing, and many other things. I create technical content and manage a Discord community (server).",
+        "description": "I'm a",
+        "detail_text_button": "Detail"
+    },
+    "about": {
+        "title": "About Me",
+        "subtitle": "My Story",
+        "subtitle2": "My Skills",
+        "description": {
+            "part_1": "As a full stack developer, I am dedicated to creating innovative and scalable web and mobile applications. My passion for technology has deep roots: it all started when I was just 4 years old and met my first computer. That childish curiosity to explore every key on the keyboard has turned into a true professional vocation, guiding me towards a career in the world of computer programmer.",
+            "part_2": "I am particularly passionate about building projects from scratch: whether it is bots, programs, software, websites or video games, I love to start from the ground up and develop customized solutions for specific needs. This passion for building and creating extends far beyond computer science: I am a 3D printing enthusiast and enjoy designing and making custom models with my Anycubic Kobra S1 Combo printer.",
+            "part_3": "A concrete example of my passion for creation is the integrated system that I developed for my community: it combines Discord and Telegram through custom bots, offering a unique interactive experience with speech synthesis and automatic notifications between platforms. The Discord bot is running 24/7 on my Raspberry Pi 4, where I installed CasaOS, an operating system that allows me to manage Docker containers to host different applications, including the bot itself. In my free time, besides keeping my projects active on GitHub, I run a small and nice Discord community.",
+            "part_4": "I am constantly inspired by new ideas for innovative projects, even if I do not always manage to complete them all. One of my biggest dreams is to publish a product of my own, in particular a video game for which I have already developed detailed design documentation. Unfortunately, given the complexity of the project and time constraints, I have not yet been able to complete it completely, but it remains one of my main goals."
+        },
+        "description2": "I am always looking for new technologies to learn and exciting projects to work on. My philosophy is that continuous learning is the key to staying relevant in a rapidly evolving field like technology."
+    },
+    "projects": {
+        "title": "My Projects"
+    },
+    "projects3d": {
+        "title": "3D Projects",
+        "description": "Explore my collection of 3D models designed and printed with my Anycubic Kobra S1. Each project is designed to solve specific problems or simply for fun."
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Contact Me",
+        "description": "Do you have a project in mind? Contact me!",
+        "contact_by_email_button": "Contact me by Email",
+        "contact_by_linkedin_button": "Contact me on LinkedIn",
+        "view_cv_button": "View CV"
+    }
+}

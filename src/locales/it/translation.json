@@ -1,0 +1,43 @@
+{
+    "menu": {
+        "home": "Home",
+        "about": "Chi sono",
+        "projects": "Progetti",
+        "projects3d": "Progetti 3D",
+        "contact": "Contatti"
+    },
+    "home": {
+        "title": "Portfolio",
+        "text_typing": "Ciiao, sono...",
+        "header": "A volte sono un frontend e a volte sono un backend developer... Mi appassionano la tecnologia, i videogiochi e la stampa 3D e tantissime altre cose. Creo contenuti tecnici e gestisco una community (server) Discord.",
+        "description": "E sono un",
+        "detail_text_button": "Dettaglio"
+    },
+    "about": {
+        "title": "Chi sono",
+        "subtitle": "La mia storia",
+        "subtitle2": "Le mie competenze",
+        "description": {
+            "part_1": "Come sviluppatore full stack, mi dedico alla creazione di applicazioni web e mobile innovative e scalabili. La mia passione per la tecnologia ha radici profonde: tutto è iniziato quando, a soli 4 anni, incontrai il mio primo computer. Quella curiosità infantile di esplorare ogni tasto della tastiera si è trasformata in una vera vocazione professionale, guidandomi verso una carriera nel mondo dell'informatico programmatore.",
+            "part_2": "Mi appassiona particolarmente costruire progetti da zero: che siano bot, programmi, software, siti web o videogiochi, amo partire dalle fondamenta e sviluppare soluzioni personalizzate per esigenze specifiche. Questa passione per costruire e creare si estende ben oltre l'informatica: sono un entusiasta della stampa 3D e mi diverto a progettare e realizzare modelli personalizzati con la mia stampante Anycubic Kobra S1 Combo.",
+            "part_3": "Un esempio concreto della mia passione per la creazione è il sistema integrato che ho sviluppato per la mia community: unisce Discord e Telegram attraverso bot personalizzati, offrendo un'esperienza interattiva unica con sintesi vocale e notifiche automatiche tra le piattaforme. Il bot Discord è in esecuzione 24/7 sul mio Raspberry Pi 4, dove ho installato CasaOS, un sistema operativo che mi permette di gestire container Docker per ospitare diverse applicazioni, incluso il bot stesso. Nel mio tempo libero, oltre a mantenere attivi i miei progetti su GitHub, gestisco una piccola e simpatica community Discord.",
+            "part_4": "Sono costantemente ispirato da nuove idee per progetti innovativi, anche se non sempre riesco a portarli tutti a termine. Uno dei miei più grandi sogni è pubblicare un prodotto tutto mio, in particolare un videogioco per il quale ho già sviluppato una dettagliata documentazione di design. Purtroppo, data la complessità del progetto e i limiti di tempo, non sono ancora riuscito a realizzarlo completamente, ma resta uno dei miei obiettivi principali."
+        },
+        "description2": "Sono sempre alla ricerca di nuove tecnologie da imparare e nuovi progetti stimolanti su cui lavorare. La mia filosofia è che l'apprendimento continuo sia la chiave per rimanere rilevanti in un campo in rapida evoluzione come quello tecnologico."
+    },
+    "projects": {
+        "title": "I miei progetti"
+    },
+    "projects3d": {
+        "title": "Progetti 3D",
+        "description": "Esplora la mia collezione di modelli 3D progettati e stampati con la mia Anycubic Kobra S1. Ogni progetto è stato creato per risolvere problemi specifici o semplicemente per il piacere di creare."
+    },
+    "contact": {
+        "title": "Contatti",
+        "subtitle": "Contattami",
+        "description": "Hai un progetto in mente? Contattami!",
+        "contact_by_email_button": "Contattami via Email",
+        "contact_by_linkedin_button": "Contattami su LinkedIn",
+        "view_cv_button": "Visualizza CV"
+    }
+}

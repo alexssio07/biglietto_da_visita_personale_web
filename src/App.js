@@ -26,11 +26,15 @@ import {
   FaLink,
   FaTwitter,
   FaDiscord,
+  FaFlagUsa,
+  FaFlag,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "./App.css";
 import profileImage from "./assets/Immagine_profilo.jpg";
 import portfolioImage from "./assets/anteprima_sito_web.png";
+import cv from "./assets/CV.pdf";
+import { useTranslation } from "react-i18next";
 
 // Professionalità che cambiano
 const professions = [
@@ -168,9 +172,10 @@ const galleryImages = [
 
 function App() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [activeSection, setActiveSection] = useState("home");
   const [professionIndex, setProfessionIndex] = useState(0);
+
+  const { t, i18n } = useTranslation();
 
   // Effetto per cambiare professione ogni 3 secondi
   useEffect(() => {
@@ -276,7 +281,24 @@ function App() {
           >
             Portfolio
           </Typography>
-
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <IconButton
+              onClick={() => i18n.changeLanguage("en")}
+              sx={{ color: i18n.language === "en" ? "#90caf9" : "white" }}
+              aria-label="English"
+            >
+              <FaFlagUsa />
+              EN
+            </IconButton>
+            <IconButton
+              onClick={() => i18n.changeLanguage("it")}
+              sx={{ color: i18n.language === "it" ? "#90caf9" : "white" }}
+              aria-label="Italian"
+            >
+              <FaFlag />
+              IT
+            </IconButton>
+          </Box>
           <Box
             sx={{
               display: "flex",
@@ -290,35 +312,35 @@ function App() {
               onClick={() => scrollToSection("home")}
               sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
-              Home
+              {t("menu.home")}
             </Button>
             <Button
               color={activeSection === "about" ? "primary" : "inherit"}
               onClick={() => scrollToSection("about")}
               sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
-              About
+              {t("menu.about")}
             </Button>
             <Button
               color={activeSection === "projects" ? "primary" : "inherit"}
               onClick={() => scrollToSection("projects")}
               sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
-              Projects
+              {t("menu.projects")}
             </Button>
             <Button
               color={activeSection === "projects3d" ? "primary" : "inherit"}
               onClick={() => scrollToSection("projects3d")}
               sx={{ fontSize: { xs: "0.6rem", sm: "0.875rem" } }}
             >
-              Progetti 3D
+              {t("menu.projects3d")}
             </Button>
             <Button
               color={activeSection === "contact" ? "primary" : "inherit"}
               onClick={() => scrollToSection("contact")}
               sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
             >
-              Contact
+              {t("menu.contact")}
             </Button>
           </Box>
         </Toolbar>
@@ -343,7 +365,7 @@ function App() {
             height: "100%",
             px: { xs: 2, sm: 3, md: 4, lg: 6 },
             py: { xs: 4, sm: 5, md: 6 },
-            mx: { lg: 28 },
+            mx: { lg: "auto" },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -351,7 +373,12 @@ function App() {
             overflow: "hidden",
           }}
         >
-          <Grid container spacing={6} alignItems="center">
+          <Grid
+            container
+            spacing={6}
+            alignItems="center"
+            sx={{ px: { lg: 8 } }}
+          >
             <Grid item lg={12} xs={12} md={6}>
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -362,14 +389,14 @@ function App() {
                   variant="h6"
                   sx={{ color: "#90caf9", mb: 2, height: "40px" }}
                 >
-                  <Typewriter text="Ciiao, sono..." speed={160} />
+                  <Typewriter text={t("home.text_typing")} speed={160} />
                 </Typography>
                 <Typography variant="h2" sx={{ fontWeight: "bold", mb: 1 }}>
                   Alessio Chiocchetti
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
                   <Typography variant="h4" sx={{ mr: 1 }}>
-                    E sono un
+                    {t("home.description")}
                   </Typography>
                   <Typography
                     variant="h4"
@@ -386,10 +413,7 @@ function App() {
                   variant="body1"
                   sx={{ mb: 4, maxWidth: "600px", fontSize: "larger" }}
                 >
-                  A volte sono un frontend e a volte sono un backend
-                  developer... Mi appassionano la tecnologia, i videogiochi e la
-                  stampa 3D e tantissime altre cose. Creo contenuti tecnici e
-                  gestisco una community (server) Discord.
+                  {t("home.header")}
                 </Typography>
 
                 <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
@@ -460,7 +484,7 @@ function App() {
                   }}
                   onClick={() => scrollToSection("about")}
                 >
-                  Dettagli
+                  {t("home.detail_text_button")}
                 </Button>
               </motion.div>
             </Grid>
@@ -522,13 +546,13 @@ function App() {
                 color: "#90caf9",
               }}
             >
-              Chi Sono
+              {t("about.title")}
             </Typography>
 
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <Typography variant="h4" sx={{ mb: 3, color: "#00e5ff" }}>
-                  La Mia Storia
+                  {t("about.subtitle")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -544,14 +568,7 @@ function App() {
                     },
                   }}
                 >
-                  Come sviluppatore full stack, mi dedico alla creazione di
-                  applicazioni web e mobile innovative e scalabili. La mia
-                  passione per la tecnologia ha radici profonde: tutto è
-                  iniziato quando, a soli 4 anni, incontrai il mio primo
-                  computer. Quella curiosità infantile di esplorare ogni tasto
-                  della tastiera si è trasformata in una vera vocazione
-                  professionale, guidandomi verso una carriera nel mondo
-                  dell'informatico programmatore.
+                  {t("about.description.part_1")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -567,13 +584,7 @@ function App() {
                     textAlign: "justify",
                   }}
                 >
-                  Mi appassiona particolarmente costruire progetti da zero: che
-                  siano bot, programmi, software, siti web o videogiochi, amo
-                  partire dalle fondamenta e sviluppare soluzioni personalizzate
-                  per esigenze specifiche. Questa passione per costruire e
-                  creare si estende ben oltre l'informatica: sono un entusiasta
-                  della stampa 3D e mi diverto a progettare e realizzare modelli
-                  personalizzati con la mia stampante Anycubic Kobra S1 Combo.
+                  {t("about.description.part_2")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -589,17 +600,7 @@ function App() {
                     textAlign: "justify",
                   }}
                 >
-                  Un esempio concreto della mia passione per la creazione è il
-                  sistema integrato che ho sviluppato per la mia community:
-                  unisce Discord e Telegram attraverso bot personalizzati,
-                  offrendo un'esperienza interattiva unica con sintesi vocale e
-                  notifiche automatiche tra le piattaforme. Il bot Discord è in
-                  esecuzione 24/7 sul mio Raspberry Pi 4, dove ho installato
-                  CasaOS, un sistema operativo che mi permette di gestire
-                  container Docker per ospitare diverse applicazioni, incluso il
-                  bot stesso. Nel mio tempo libero, oltre a mantenere attivi i
-                  miei progetti su GitHub, gestisco una piccola e simpatica
-                  community Discord.
+                  {t("about.description.part_3")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -615,20 +616,13 @@ function App() {
                     textAlign: "justify",
                   }}
                 >
-                  Sono costantemente ispirato da nuove idee per progetti
-                  innovativi, anche se non sempre riesco a portarli tutti a
-                  termine. Uno dei miei più grandi sogni è pubblicare un
-                  prodotto tutto mio, in particolare un videogioco per il quale
-                  ho già sviluppato una dettagliata documentazione di design.
-                  Purtroppo, data la complessità del progetto e i limiti di
-                  tempo, non sono ancora riuscito a realizzarlo completamente,
-                  ma resta uno dei miei obiettivi principali.
+                  {t("about.description.part_4")}
                 </Typography>
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Typography variant="h4" sx={{ mb: 3, color: "#00e5ff" }}>
-                  Le Mie Competenze
+                  {t("about.subtitle2")}
                 </Typography>
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 4 }}>
                   {[
@@ -645,6 +639,9 @@ function App() {
                     "Docker",
                     "C#",
                     ".Net Core",
+                    "Docker",
+                    "Unity 3D",
+                    "Unreal Engine",
                     ".Net Framework",
                     "3D Printing",
                     "Content Creation",
@@ -674,11 +671,7 @@ function App() {
                     textAlign: "justify",
                   }}
                 >
-                  Sono sempre alla ricerca di nuove tecnologie da imparare e
-                  nuovi progetti stimolanti su cui lavorare. La mia filosofia è
-                  che l'apprendimento continuo sia la chiave per rimanere
-                  rilevanti in un campo in rapida evoluzione come quello
-                  tecnologico.
+                  {t("about.description2")}
                 </Typography>
               </Grid>
             </Grid>
@@ -710,7 +703,7 @@ function App() {
                 color: "#90caf9",
               }}
             >
-              I Miei Progetti
+              {t("projects.title")}
             </Typography>
 
             <Grid container spacing={4}>
@@ -816,7 +809,7 @@ function App() {
                 color: "#90caf9",
               }}
             >
-              I Miei Progetti 3D
+              {t("projects3d.title")}
             </Typography>
             <Typography
               variant="h6"
@@ -835,10 +828,7 @@ function App() {
                 },
               }}
             >
-              Esplora la mia collezione di modelli 3D progettati e stampati con
-              la mia Anycubic Kobra S1. Ogni progetto è stato creato per
-              risolvere problemi specifici o semplicemente per il piacere di
-              creare.
+              {t("projects3d.description")}
             </Typography>
             {/* Galleria orizzontale scrollabile */}
             <Typography
@@ -1002,7 +992,7 @@ function App() {
                 color: "#90caf9",
               }}
             >
-              Contattami
+              {t("contact.title")}
             </Typography>
 
             <Grid container spacing={4} justifyContent="center">
@@ -1021,17 +1011,8 @@ function App() {
                     variant="h5"
                     sx={{ mb: 3, color: "#00e5ff", textAlign: "center" }}
                   >
-                    Hai un progetto in mente?
+                    {t("contact.description")}
                   </Typography>
-
-                  <Box sx={{ mb: 4, textAlign: "center", color: "white" }}>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      Email: alessio.chiocchetti@gmail.com
-                    </Typography>
-                    <Typography variant="body1">
-                      LinkedIn: linkedin.com/in/alessio-chiocchetti
-                    </Typography>
-                  </Box>
 
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -1049,7 +1030,7 @@ function App() {
                         },
                       }}
                     >
-                      Contattami via Email
+                      {t("contact.contact_by_email_button")}
                     </Button>
 
                     <Button
@@ -1065,12 +1046,12 @@ function App() {
                         },
                       }}
                     >
-                      Contattami su LinkedIn
+                      {t("contact.contact_by_linkedin_button")}
                     </Button>
 
                     <Button
                       variant="outlined"
-                      href="/cv.pdf"
+                      href={cv}
                       target="_blank"
                       sx={{
                         py: 1.5,
@@ -1082,7 +1063,7 @@ function App() {
                         },
                       }}
                     >
-                      Visualizza CV
+                      {t("contact.view_cv_button")}
                     </Button>
                   </Box>
                 </Paper>
