@@ -18,19 +18,47 @@
         "subtitle": "La mia storia",
         "subtitle2": "Le mie competenze",
         "description": {
-            "part_1": "Come sviluppatore full stack, mi dedico alla creazione di applicazioni web e mobile innovative e scalabili. La mia passione per la tecnologia ha radici profonde: tutto è iniziato quando, a soli 4 anni, incontrai il mio primo computer. Quella curiosità infantile di esplorare ogni tasto della tastiera si è trasformata in una vera vocazione professionale, guidandomi verso una carriera nel mondo dell'informatico programmatore.",
-            "part_2": "Mi appassiona particolarmente costruire progetti da zero: che siano bot, programmi, software, siti web o videogiochi, amo partire dalle fondamenta e sviluppare soluzioni personalizzate per esigenze specifiche. Questa passione per costruire e creare si estende ben oltre l'informatica: sono un entusiasta della stampa 3D e mi diverto a progettare e realizzare modelli personalizzati con la mia stampante Anycubic Kobra S1 Combo.",
-            "part_3": "Un esempio concreto della mia passione per la creazione è il sistema integrato che ho sviluppato per la mia community: unisce Discord e Telegram attraverso bot personalizzati, offrendo un'esperienza interattiva unica con sintesi vocale e notifiche automatiche tra le piattaforme. Il bot Discord è in esecuzione 24/7 sul mio Raspberry Pi 4, dove ho installato CasaOS, un sistema operativo che mi permette di gestire container Docker per ospitare diverse applicazioni, incluso il bot stesso. Nel mio tempo libero, oltre a mantenere attivi i miei progetti su GitHub, gestisco una piccola e simpatica community Discord.",
-            "part_4": "Sono costantemente ispirato da nuove idee per progetti innovativi, anche se non sempre riesco a portarli tutti a termine. Uno dei miei più grandi sogni è pubblicare un prodotto tutto mio, in particolare un videogioco per il quale ho già sviluppato una dettagliata documentazione di design. Purtroppo, data la complessità del progetto e i limiti di tempo, non sono ancora riuscito a realizzarlo completamente, ma resta uno dei miei obiettivi principali."
+            "part_1": "Come sviluppatore full stack, mi dedico alla creazione di applicazioni web e mobile innovative e scalabili. La mia passione per la tecnologia ha radici profonde: tutto è iniziato quando, a soli 4 anni, ho incontrato il mio primo computer. Quella curiosità infantile di esplorare ogni tasto della tastiera si è trasformata in una vera vocazione professionale, guidandomi verso una carriera nel mondo dell'informatica e della programmazione.",
+            "part_2": "Mi appassiona in particolare costruire progetti da zero: che si tratti di bot, programmi, software, siti web o videogiochi, amo partire dalle fondamenta e sviluppare soluzioni su misura per esigenze specifiche. Questa passione per il costruire e il creare si estende ben oltre l'informatica: sono un appassionato di stampa 3D e mi diverto a progettare e realizzare modelli personalizzati con la mia stampante Anycubic Kobra S1 Combo.",
+            "part_3": "Un esempio concreto della mia passione per la creazione è il sistema integrato che ho sviluppato per la mia community: unisce Discord e Telegram attraverso bot personalizzati, offrendo un'esperienza interattiva unica, con sintesi vocale e notifiche automatiche tra le due piattaforme. Il bot Discord è in esecuzione 24 ore su 24 sul mio Raspberry Pi 4, dove ho installato CasaOS, un sistema operativo che mi permette di gestire container Docker per ospitare diverse applicazioni, incluso il bot stesso. Nel tempo libero, oltre a portare avanti i miei progetti su GitHub, gestisco una piccola e simpatica community Discord.",
+            "part_4": "Sono costantemente stimolato da nuove idee per progetti innovativi, anche se non sempre riesco a portarli tutti a termine. Uno dei miei più grandi sogni è pubblicare un prodotto tutto mio, in particolare un videogioco, per il quale ho già scritto una dettagliata documentazione di design. Purtroppo, data la complessità del progetto e i limiti di tempo, non sono ancora riuscito a completarlo, ma resta uno dei miei obiettivi principali."
         },
-        "description2": "Sono sempre alla ricerca di nuove tecnologie da imparare e nuovi progetti stimolanti su cui lavorare. La mia filosofia è che l'apprendimento continuo sia la chiave per rimanere rilevanti in un campo in rapida evoluzione come quello tecnologico."
+        "description2": "Sono sempre alla ricerca di nuove tecnologie da imparare e di nuovi progetti stimolanti su cui lavorare. La mia filosofia è che l'apprendimento continuo sia la chiave per restare al passo in un settore in rapida evoluzione come quello tecnologico."
     },
     "projects": {
-        "title": "I miei progetti"
+        "title": "I miei progetti",
+        "see_all": "Vedi tutti i progetti",
+        "open_github": "Apri su GitHub",
+        "items": {
+            "ervongola": {
+                "title": "Er Vongola Bot",
+                "short": "Un bot Discord personalizzato sviluppato in Python con funzionalità avanzate per la gestione della community.",
+                "long": "Un bot Discord personalizzato sviluppato in Python per gestire la mia community. Fa parte di un sistema integrato che unisce Discord e Telegram, con sintesi vocale e notifiche automatiche tra le due piattaforme. Il bot è in esecuzione 24 ore su 24 su un Raspberry Pi 4, in un container Docker gestito tramite CasaOS.",
+                "features": [
+                    "Funzionalità avanzate per la gestione della community Discord",
+                    "Sintesi vocale con gTTS e gestione di contenuti multimediali con yt-dlp",
+                    "Notifiche automatiche tra Discord e Telegram",
+                    "Integrazione con modelli di linguaggio locali tramite Ollama",
+                    "Esecuzione 24/7 in un container Docker su Raspberry Pi 4 con CasaOS"
+                ]
+            },
+            "portfolio": {
+                "title": "Sito web personale",
+                "short": "Un portfolio personale sviluppato con React e Material UI per mostrare i miei progetti e competenze.",
+                "long": "Il sito che stai visitando: un portfolio personale sviluppato con React e Material UI per presentare i miei progetti e le mie competenze. È bilingue (italiano e inglese), adatto a ogni dimensione di schermo e arricchito da animazioni.",
+                "features": [
+                    "Interfaccia bilingue italiano/inglese con i18next",
+                    "Design responsive realizzato con Material UI",
+                    "Animazioni fluide con Framer Motion",
+                    "Pubblicazione su Vercel"
+                ]
+            }
+        }
     },
     "projects3d": {
         "title": "Progetti 3D",
-        "description": "Esplora la mia collezione di modelli 3D progettati e stampati con la mia Anycubic Kobra S1. Ogni progetto è stato creato per risolvere problemi specifici o semplicemente per il piacere di creare."
+        "description": "Esplora la mia collezione di modelli 3D progettati e stampati con la mia Anycubic Kobra S1. Ogni progetto è stato creato per risolvere problemi specifici o semplicemente per il piacere di creare.",
+        "coming_soon": "Lavori in corso... Galleria di immagini in arrivo!"
     },
     "contact": {
         "title": "Contatti",
@@ -39,5 +67,13 @@
         "contact_by_email_button": "Contattami via Email",
         "contact_by_linkedin_button": "Contattami su LinkedIn",
         "view_cv_button": "Visualizza CV"
+    },
+    "projectsPage": {
+        "title": "Tutti i progetti",
+        "subtitle": "Una raccolta dettagliata dei miei progetti software.",
+        "back": "Torna alla home",
+        "features": "Funzionalità principali",
+        "technologies": "Tecnologie utilizzate",
+        "github": "Vedi su GitHub"
     }
 }

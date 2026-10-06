@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -8,35 +8,31 @@ import {
   AppBar,
   Toolbar,
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   Chip,
   Grid,
   Paper,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import {
   FaLinkedin,
   FaEnvelope,
-  FaYoutube,
-  FaInstagram,
-  FaTiktok,
-  FaTelegram,
-  FaLink,
-  FaTwitter,
-  FaDiscord,
-  FaFlagUsa,
-  FaFlag,
+  FaExternalLinkAlt,
+  FaArrowRight,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import "./App.css";
 import profileImage from "./assets/Immagine_profilo.jpg";
-import portfolioImage from "./assets/anteprima_sito_web.png";
 import cv from "./assets/CV.pdf";
-import { useTranslation } from "react-i18next";
+import { projects } from "./data/projects";
+import Typewriter from "./components/Typewriter";
+import SocialLinks from "./components/SocialLinks";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import ProjectsPage from "./pages/ProjectsPage";
 
-// Professionalità che cambiano
+// Professioni che si alternano accanto a "E sono un..." nella home
 const professions = [
   "Full Stack Developer",
   "Back-end Developer",
@@ -47,135 +43,61 @@ const professions = [
   "Discord Community Manager",
 ];
 
-// Progetti di esempio - sostituisci con i tuoi
-const projects = [
-  {
-    id: 1,
-    title: "Er Vongola Bot",
-    description:
-      "Un bot Discord personalizzato sviluppato in Python con funzionalità avanzate per la gestione della community.",
-    image:
-      "https://github.com/alexssio07/ervongola-bot-discord/raw/main/immagine_profilo.jpg",
-    technologies: [
-      "Python 3.10.2",
-      "Discord.py",
-      "dotenv",
-      "ollama",
-      "json",
-      "streamlit",
-      "nest_asyncio",
-      "logging",
-      "yt-dlp",
-      "asyncio",
-      "gTTS",
-      "SmartScraperGraph",
-    ],
-    link: "https://github.com/alexssio07/ervongola-bot-discord",
-  },
-  {
-    id: 2,
-    title: "Sito web Personale",
-    description:
-      "Un portfolio personale sviluppato con React e Material UI per mostrare i miei progetti e competenze.",
-    image: portfolioImage,
-    technologies: [
-      "React",
-      "Material UI",
-      "JavaScript",
-      "react-icons",
-      "CSS",
-      "HTML",
-    ],
-    link: "https://github.com/alexssio07/biglietto_da_visita_personale_web",
-  },
-  // {
-  //   id: 3,
-  //   title: "Modelli 3D",
-  //   description:
-  //     "Una collezione di modelli 3D progettati e stampati con la mia Anycubic Kobra S1.",
-  //   image: "https://via.placeholder.com/300x200",
-  //   technologies: ["Blender", "Fusion 360", "3D Printing"],
-  //   link: "https://github.com/yourusername/3d-models",
-  // },
+// Competenze mostrate come "chip" nella sezione "Chi sono"
+const skills = [
+  "React",
+  "Node.js",
+  "Python",
+  "JavaScript",
+  "HTML/CSS",
+  "Material UI",
+  "MongoDB",
+  "SQL",
+  "MS SQL",
+  "Git",
+  "Docker",
+  "C#",
+  ".Net Core",
+  "Unity 3D",
+  "Unreal Engine",
+  ".Net Framework",
+  "3D Printing",
+  "Content Creation",
+  "Video Maker",
 ];
 
-// Progetti 3D - sostituisci con i tuoi modelli 3D reali
-const projects3D = [
-  {
-    id: 1,
-    title: "Supporto per Smartphone",
-    description:
-      "Un supporto ergonomico per smartphone stampato in 3D, progettato per mantenere il telefono ad un'angolazione ottimale durante le videochiamate o mentre si guardano video.",
-    image: "https://via.placeholder.com/300x200",
-    technologies: ["PLA", "Anycubic Kobra S1", "Fusion 360"],
-    link: "#",
+// Stile condiviso dai paragrafi della sezione "Chi sono"
+// (la dimensione del testo cresce con la larghezza dello schermo)
+const aboutTextSx = {
+  mb: 2,
+  textAlign: "justify",
+  fontSize: {
+    xs: "16px", // smartphone
+    sm: "17.5px", // smartphone grandi
+    md: "18px", // tablet
+    lg: "20px", // desktop
+    xl: "21px", // schermi molto grandi
   },
-  {
-    id: 2,
-    title: "Organizzatore Scrivania",
-    description:
-      "Sistema modulare di organizzazione per scrivania con scomparti per penne, matite e altri accessori da ufficio. Personalizzabile in base alle esigenze specifiche.",
-    image: "https://via.placeholder.com/300x200",
-    technologies: ["PETG", "Anycubic Kobra S1", "Blender"],
-    link: "#",
-  },
-  {
-    id: 3,
-    title: "Vaso Geometrico",
-    description:
-      "Vaso decorativo con pattern geometrico complesso, impossibile da realizzare con metodi tradizionali. Perfetto per piante grasse e piccoli arbusti.",
-    image: "https://via.placeholder.com/300x200",
-    technologies: ["PLA", "Anycubic Kobra S1", "Tinkercad"],
-    link: "#",
-  },
-];
+};
 
-// Aggiungi questo array di immagini dopo gli altri array di progetti
-const galleryImages = [
-  {
-    id: 1,
-    title: "Progetto 1",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 1",
-  },
-  {
-    id: 2,
-    title: "Progetto 2",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 2",
-  },
-  {
-    id: 3,
-    title: "Progetto 3",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 3",
-  },
-  {
-    id: 4,
-    title: "Progetto 4",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 4",
-  },
-  {
-    id: 5,
-    title: "Progetto 5",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 5",
-  },
-  {
-    id: 6,
-    title: "Progetto 6",
-    image: "https://via.placeholder.com/600x400",
-    description: "Descrizione breve del progetto 6",
-  },
-];
+// Numero massimo di tecnologie mostrate nella lista compatta dei progetti (home)
+const MAX_TECH_IN_LIST = 3;
+
+// "Pagina" con tutti i progetti: è una vista dentro la stessa app, raggiungibile
+// con l'indirizzo "#/progetti". Così non serve installare un router e funziona
+// senza configurazione anche su Vercel.
+const PROJECTS_ROUTE = "#/progetti";
+const isProjectsRoute = () => window.location.hash.startsWith(PROJECTS_ROUTE);
 
 function App() {
-  const theme = useTheme();
   const [activeSection, setActiveSection] = useState("home");
   const [professionIndex, setProfessionIndex] = useState(0);
+  // true = mostra la pagina "Tutti i progetti" al posto della home
+  const [showProjectsPage, setShowProjectsPage] = useState(isProjectsRoute);
+  // Serve a sapere se stiamo tornando dalla pagina progetti alla home
+  const cameFromProjectsPage = useRef(false);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // Effetto per cambiare professione ogni 3 secondi
   useEffect(() => {
@@ -186,8 +108,34 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Effetto per rilevare lo scroll e cambiare sezione attiva
+  // Ascolta i cambi dell'indirizzo (#/progetti <-> home), anche con i
+  // pulsanti avanti/indietro del browser
   useEffect(() => {
+    const onHashChange = () => setShowProjectsPage(isProjectsRoute());
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  // Quando si cambia "pagina": in alto per la pagina progetti,
+  // oppure di nuovo alla sezione Progetti quando si torna in home
+  useEffect(() => {
+    if (showProjectsPage) {
+      cameFromProjectsPage.current = true;
+      window.scrollTo(0, 0);
+    } else if (cameFromProjectsPage.current) {
+      cameFromProjectsPage.current = false;
+      // Aspetta che la home sia stata disegnata, poi scorre alla sezione
+      requestAnimationFrame(() => {
+        document.getElementById("projects")?.scrollIntoView();
+      });
+    }
+  }, [showProjectsPage]);
+
+  // Effetto per rilevare lo scroll e cambiare sezione attiva nel menu
+  // (ogni sezione occupa circa una schermata)
+  useEffect(() => {
+    if (showProjectsPage) return; // la home non è visibile: niente da fare
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
@@ -207,39 +155,13 @@ function App() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [showProjectsPage]);
 
-  // Funzione personalizzata per l'effetto di digitazione
-  const useTypewriter = (text, speed = 800) => {
-    const [displayText, setDisplayText] = useState("");
+  // Riferimento per lo scroller della galleria (usato dal codice commentato più sotto)
+  // eslint-disable-next-line no-unused-vars
+  const galleryScrollRef = useRef(null);
 
-    useEffect(() => {
-      let i = 0;
-      const typingInterval = setInterval(() => {
-        if (i < text.length) {
-          setDisplayText((prevText) => prevText + text.charAt(i));
-          i++;
-        } else {
-          clearInterval(typingInterval);
-        }
-      }, speed);
-
-      return () => {
-        clearInterval(typingInterval);
-      };
-    }, [text, speed]);
-
-    return displayText;
-  };
-
-  // Nuovo componente per l'effetto di digitazione - si può utilizzare come <Typewriter text="Testo da digitare" speed={100} /> */}
-  const Typewriter = ({ text, speed }) => {
-    const displayText = useTypewriter(text, speed);
-    return <>{displayText}</>;
-  };
-  // Riferimento per lo scroller della galleria
-  const galleryScrollRef = React.useRef(null);
-  // Funzione per scorrere alla sezione
+  // Funzione per scorrere dolcemente fino a una sezione
   const scrollToSection = (section) => {
     const element = document.getElementById(section);
     if (element) {
@@ -247,19 +169,31 @@ function App() {
     }
     setActiveSection(section);
   };
-  // Funzione per scorrere la galleria a sinistra
+
+  // Torna dalla pagina "Tutti i progetti" alla home (svuota l'hash dell'indirizzo)
+  const goBackHome = () => {
+    window.location.hash = "";
+  };
+
+  // Funzioni per scorrere la galleria a sinistra/destra (usate dal codice commentato)
+  // eslint-disable-next-line no-unused-vars
   const scrollGalleryLeft = () => {
     if (galleryScrollRef.current) {
       galleryScrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
     }
   };
 
-  // Funzione per scorrere la galleria a destra
+  // eslint-disable-next-line no-unused-vars
   const scrollGalleryRight = () => {
     if (galleryScrollRef.current) {
       galleryScrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
     }
   };
+
+  // Pagina dedicata con tutti i progetti in dettaglio
+  if (showProjectsPage) {
+    return <ProjectsPage onBack={goBackHome} />;
+  }
 
   return (
     <Box sx={{ bgcolor: "#121212", color: "white", minHeight: "100vh" }}>
@@ -285,67 +219,40 @@ function App() {
           >
             Portfolio
           </Typography>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <IconButton
-              onClick={() => i18n.changeLanguage("en")}
-              sx={{ color: i18n.language === "en" ? "#90caf9" : "white" }}
-              aria-label="English"
-            >
-              <FaFlagUsa />
-              EN
-            </IconButton>
-            <IconButton
-              onClick={() => i18n.changeLanguage("it")}
-              sx={{ color: i18n.language === "it" ? "#90caf9" : "white" }}
-              aria-label="Italian"
-            >
-              <FaFlag />
-              IT
-            </IconButton>
-          </Box>
+
+          {/* Selettore lingua */}
+          <LanguageSwitcher />
+
+          {/* Voci del menu: ognuna scorre alla propria sezione */}
           <Box
             sx={{
               display: "flex",
               gap: { xs: 1, sm: 2, md: 3 },
-              flexWrap: { xs: "nowrap", sm: "nowrap" },
+              flexWrap: "nowrap",
               justifyContent: "space-between",
             }}
           >
-            <Button
-              color={activeSection === "home" ? "primary" : "inherit"}
-              onClick={() => scrollToSection("home")}
-              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
-            >
-              {t("menu.home")}
-            </Button>
-            <Button
-              color={activeSection === "about" ? "primary" : "inherit"}
-              onClick={() => scrollToSection("about")}
-              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
-            >
-              {t("menu.about")}
-            </Button>
-            <Button
-              color={activeSection === "projects" ? "primary" : "inherit"}
-              onClick={() => scrollToSection("projects")}
-              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
-            >
-              {t("menu.projects")}
-            </Button>
-            <Button
-              color={activeSection === "projects3d" ? "primary" : "inherit"}
-              onClick={() => scrollToSection("projects3d")}
-              sx={{ fontSize: { xs: "0.6rem", sm: "0.875rem" } }}
-            >
-              {t("menu.projects3d")}
-            </Button>
-            <Button
-              color={activeSection === "contact" ? "primary" : "inherit"}
-              onClick={() => scrollToSection("contact")}
-              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
-            >
-              {t("menu.contact")}
-            </Button>
+            {[
+              ["home", "menu.home"],
+              ["about", "menu.about"],
+              ["projects", "menu.projects"],
+              ["projects3d", "menu.projects3d"],
+              ["contact", "menu.contact"],
+            ].map(([section, labelKey]) => (
+              <Button
+                key={section}
+                color={activeSection === section ? "primary" : "inherit"}
+                onClick={() => scrollToSection(section)}
+                sx={{
+                  fontSize: {
+                    xs: section === "projects3d" ? "0.6rem" : "0.7rem",
+                    sm: "0.875rem",
+                  },
+                }}
+              >
+                {t(labelKey)}
+              </Button>
+            ))}
           </Box>
         </Toolbar>
       </AppBar>
@@ -379,6 +286,12 @@ function App() {
             overflow: "hidden",
           }}
         >
+          {/*
+            Layout a due colonne: testo a sinistra, foto a destra.
+            Con MUI v7 la larghezza delle colonne si indica con `size`
+            (le vecchie props `item`, `xs`, `md` non funzionano più e facevano
+            finire la foto sotto al testo). Su smartphone le colonne si impilano.
+          */}
           <Grid
             container
             spacing={6}
@@ -389,7 +302,8 @@ function App() {
               width: "100%",
             }}
           >
-            <Grid item lg={12} xs={12} md={6}>
+            {/* Colonna sinistra: testi, social e pulsante */}
+            <Grid size={{ xs: 12, md: 6 }}>
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -416,17 +330,18 @@ function App() {
                 >
                   Alessio Chiocchetti
                 </Typography>
+                {/* "E sono un" + professione che cambia (va a capo se manca spazio) */}
                 <Box
                   sx={{
                     display: "flex",
+                    flexWrap: "wrap",
                     alignItems: "center",
-                    gap: 1,
+                    columnGap: 1.5,
                     mb: 3,
                   }}
                 >
                   <Typography
                     sx={{
-                      mr: 1,
                       fontSize: {
                         lg: "39px",
                         md: "30px",
@@ -441,7 +356,6 @@ function App() {
                     sx={{
                       color: "#00e5ff",
                       fontWeight: "bold",
-                      minWidth: "100px",
                       fontSize: {
                         lg: "39px",
                         md: "30px",
@@ -460,115 +374,8 @@ function App() {
                   {t("home.header")}
                 </Typography>
 
-                <Box sx={{ display: "flex", gap: 2, mb: 4, width: "100%" }}>
-                  <IconButton
-                    component="a"
-                    href="https://www.youtube.com/c/Alexssio"
-                    target="_blank"
-                    sx={{
-                      color: "#ea4335",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaYoutube />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://instagram.com/alexssio_23"
-                    target="_blank"
-                    sx={{
-                      color: "#DD2A7B",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaInstagram />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://tiktok.com/@alexssio_23"
-                    sx={{
-                      color: "white",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaTiktok />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://discord.com/invite/wJyppMNBUe"
-                    sx={{
-                      color: "#7289da",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaDiscord />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://t.me/alexssio_23"
-                    sx={{
-                      color: "#24A1DE",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaTelegram />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://www.threads.com/@alexssio_23"
-                    sx={{
-                      color: "white",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaLink />
-                  </IconButton>
-                  <IconButton
-                    component="a"
-                    href="https://x.com/alexssio23"
-                    sx={{
-                      color: "white",
-                      fontSize: {
-                        lg: "46px",
-                        md: "38px",
-                        sm: "32px",
-                        xs: "28px",
-                      },
-                    }}
-                  >
-                    <FaTwitter />
-                  </IconButton>
-                </Box>
+                {/* Icone social (con effetto luce al passaggio del mouse) */}
+                <SocialLinks />
 
                 <Button
                   variant="contained"
@@ -589,11 +396,14 @@ function App() {
               </motion.div>
             </Grid>
 
+            {/* Colonna destra: foto profilo, centrata in verticale rispetto al testo */}
             <Grid
-              item
-              xs={12}
-              md={6}
-              sx={{ display: { xs: "block", md: "block" } }}
+              size={{ xs: 12, md: 6 }}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "flex-end" },
+                alignItems: "center",
+              }}
             >
               <Box
                 component="img"
@@ -601,10 +411,14 @@ function App() {
                 alt="profile_image"
                 sx={{
                   width: "100%",
-                  maxWidth: "1080px",
-                  height: "auto", // 9:16 aspect ratio based on width
+                  maxWidth: { xs: "420px", md: "560px" },
+                  // Su desktop limita l'altezza così la foto non supera il blocco di testo
+                  maxHeight: { md: "70vh" },
+                  height: "auto",
                   objectFit: "cover",
+                  objectPosition: "top",
                   borderRadius: "16px",
+                  // Ritaglio a parallelogramma
                   clipPath: "polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)",
                   border: "4px solid #00e5ff",
                   boxShadow: "0 0 30px rgba(0, 229, 255, 0.5)",
@@ -615,7 +429,7 @@ function App() {
         </Container>
       </Box>
 
-      {/* Sezione About */}
+      {/* Sezione About (Chi sono) */}
       <Box
         id="about"
         sx={{
@@ -624,6 +438,7 @@ function App() {
           alignItems: "center",
           py: 1,
           background: "linear-gradient(to bottom, #121212, #1a237e)",
+          // Sfondo con immagine (disattivato):
           // backgroundImage:
           //   "url(/src/assets/Wallpaper_portfolio_stilizzato.png)",
           // backgroundRepeat: "no-repeat",
@@ -650,104 +465,25 @@ function App() {
             </Typography>
 
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
+              {/* Colonna sinistra: la mia storia */}
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Typography variant="h4" sx={{ mb: 2, color: "#00e5ff" }}>
                   {t("about.subtitle")}
                 </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 2,
-                    textAlign: "justify",
-                    fontSize: {
-                      xs: "16px", // For extra-small screens
-                      sm: "17.5px", // For small screens
-                      md: "18px", // For medium screens / tablets
-                      lg: "20px", // For large screens
-                      xl: "21px", // For extra-large screens
-                    },
-                    px: "4px",
-                  }}
-                >
-                  {t("about.description.part_1")}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 2,
-                    fontSize: {
-                      xs: "17px", // For extra-small screens
-                      sm: "17.5px", // For small screens
-                      md: "18px", // For medium screens / tablets
-                      lg: "20px", // For large screens
-                      xl: "21px", // For extra-large screens
-                    },
-                    textAlign: "justify",
-                  }}
-                >
-                  {t("about.description.part_2")}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 2,
-                    fontSize: {
-                      xs: "17px", // For extra-small screens
-                      sm: "17.5px", // For small screens
-                      md: "18px", // For medium screens / tablets
-                      lg: "20px", // For large screens
-                      xl: "21px", // For extra-large screens
-                    },
-                    textAlign: "justify",
-                  }}
-                >
-                  {t("about.description.part_3")}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 2,
-                    fontSize: {
-                      xs: "17px", // For extra-small screens
-                      sm: "17.5px", // For small screens
-                      md: "18px", // For medium screens / tablets
-                      lg: "20px", // For large screens
-                      xl: "21px", // For extra-large screens
-                    },
-                    textAlign: "justify",
-                  }}
-                >
-                  {t("about.description.part_4")}
-                </Typography>
+                {["part_1", "part_2", "part_3", "part_4"].map((part) => (
+                  <Typography key={part} variant="body1" sx={aboutTextSx}>
+                    {t(`about.description.${part}`)}
+                  </Typography>
+                ))}
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              {/* Colonna destra: competenze */}
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Typography variant="h4" sx={{ mb: 2, color: "#00e5ff" }}>
                   {t("about.subtitle2")}
                 </Typography>
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
-                  {[
-                    "React",
-                    "Node.js",
-                    "Python",
-                    "JavaScript",
-                    "HTML/CSS",
-                    "Material UI",
-                    "MongoDB",
-                    "SQL",
-                    "MS SQL",
-                    "Git",
-                    "Docker",
-                    "C#",
-                    ".Net Core",
-                    "Docker",
-                    "Unity 3D",
-                    "Unreal Engine",
-                    ".Net Framework",
-                    "3D Printing",
-                    "Content Creation",
-                    "Video Maker",
-                  ].map((skill) => (
+                  {skills.map((skill) => (
                     <Chip
                       key={skill}
                       label={skill}
@@ -759,19 +495,7 @@ function App() {
                     />
                   ))}
                 </Box>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: {
-                      xs: "17px", // For extra-small screens
-                      sm: "17.5px", // For small screens
-                      md: "18px", // For medium screens / tablets
-                      lg: "20px", // For large screens
-                      xl: "21px", // For extra-large screens
-                    },
-                    textAlign: "justify",
-                  }}
-                >
+                <Typography variant="body1" sx={{ ...aboutTextSx, mb: 0 }}>
                   {t("about.description2")}
                 </Typography>
               </Grid>
@@ -780,16 +504,18 @@ function App() {
         </Container>
       </Box>
 
-      {/* Sezione Projects */}
+      {/* Sezione Projects: lista compatta + pulsante verso la pagina completa */}
       <Box
         id="projects"
         sx={{
           minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
           py: 10,
           background: "linear-gradient(to bottom, #1a237e, #121212)",
         }}
       >
-        <Container sx={{ mt: { lg: 6, md: 3, xs: 1 } }}>
+        <Container maxWidth="md" sx={{ mt: { lg: 6, md: 3, xs: 1 } }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -799,7 +525,7 @@ function App() {
               variant="h3"
               sx={{
                 fontWeight: "bold",
-                mb: 6,
+                mb: 5,
                 textAlign: "center",
                 color: "#90caf9",
               }}
@@ -807,89 +533,146 @@ function App() {
               {t("projects.title")}
             </Typography>
 
-            <Grid container spacing={4}>
-              {projects.map((project) => (
-                <Grid item xs={12} key={project.id}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {projects.map((project) => {
+                // Testi presi dalle traduzioni: projects.items.<id>.*
+                const base = `projects.items.${project.id}`;
+                const visibleTech = project.technologies.slice(
+                  0,
+                  MAX_TECH_IN_LIST
+                );
+                const hiddenTechCount =
+                  project.technologies.length - visibleTech.length;
+
+                return (
                   <Card
+                    key={project.id}
                     component={motion.div}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.01 }}
                     sx={{
-                      display: "flex",
-                      flexDirection: { xs: "column", md: "row" },
                       bgcolor: "rgba(255, 255, 255, 0.05)",
                       backdropFilter: "blur(10px)",
                       border: "1px solid rgba(255, 255, 255, 0.1)",
+                      color: "white",
                       overflow: "hidden",
                     }}
                   >
-                    <CardMedia
-                      component="img"
+                    {/*
+                      Tutta la card è un link: un clic apre il repository GitHub
+                      (stessa azione del vecchio pulsante "Vedi su GitHub").
+                    */}
+                    <CardActionArea
+                      component="a"
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${t(`${base}.title`)} - ${t(
+                        "projects.open_github"
+                      )}`}
                       sx={{
-                        width: { xs: "100%", md: 300 },
-                        height: { xs: 200, md: "auto" },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                        gap: 2,
+                        p: 1.5,
                       }}
-                      image={project.image}
-                      alt={project.title}
-                    />
-                    <CardContent sx={{ flex: 1, p: 3 }}>
-                      <Typography
-                        variant="h5"
-                        sx={{ fontWeight: "bold", mb: 1, color: "#00e5ff" }}
-                      >
-                        {project.title}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{ mb: 2, color: "white" }}
-                      >
-                        {project.description}
-                      </Typography>
-                      <Box
+                    >
+                      <CardMedia
+                        component="img"
+                        image={project.image}
+                        alt={t(`${base}.title`)}
                         sx={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: 1,
-                          mb: 3,
+                          width: { xs: 56, sm: 72 },
+                          height: { xs: 56, sm: 72 },
+                          borderRadius: 2,
+                          objectFit: "cover",
+                          flexShrink: 0,
                         }}
-                      >
-                        {project.technologies.map((tech) => (
-                          <Chip
-                            key={tech}
-                            label={tech}
-                            size="small"
-                            sx={{
-                              bgcolor: "rgba(0, 229, 255, 0.1)",
-                              color: "white",
-                            }}
-                          />
-                        ))}
+                      />
+                      <CardContent sx={{ flex: 1, minWidth: 0, p: "0 !important" }}>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", color: "#00e5ff", lineHeight: 1.3 }}
+                        >
+                          {t(`${base}.title`)}
+                        </Typography>
+                        {/* Descrizione breve: massimo 2 righe */}
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: "#e0e0e0",
+                            mb: 1,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {t(`${base}.short`)}
+                        </Typography>
+                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                          {visibleTech.map((tech) => (
+                            <Chip
+                              key={tech}
+                              label={tech}
+                              size="small"
+                              sx={{
+                                bgcolor: "rgba(0, 229, 255, 0.1)",
+                                color: "white",
+                                height: 22,
+                                fontSize: "0.7rem",
+                              }}
+                            />
+                          ))}
+                          {hiddenTechCount > 0 && (
+                            <Chip
+                              label={`+${hiddenTechCount}`}
+                              size="small"
+                              sx={{
+                                bgcolor: "transparent",
+                                color: "#90caf9",
+                                height: 22,
+                                fontSize: "0.7rem",
+                              }}
+                            />
+                          )}
+                        </Box>
+                      </CardContent>
+                      {/* Icona che indica che il clic apre un link esterno */}
+                      <Box sx={{ color: "#00e5ff", pr: 1, display: "flex" }}>
+                        <FaExternalLinkAlt />
                       </Box>
-                      <Button
-                        variant="outlined"
-                        component="a"
-                        href={project.link}
-                        target="_blank"
-                        sx={{
-                          color: "#00e5ff",
-                          borderColor: "#00e5ff",
-                          "&:hover": {
-                            borderColor: "#00e5ff",
-                            bgcolor: "rgba(0, 229, 255, 0.1)",
-                          },
-                        }}
-                      >
-                        Vedi su GitHub
-                      </Button>
-                    </CardContent>
+                    </CardActionArea>
                   </Card>
-                </Grid>
-              ))}
-            </Grid>
+                );
+              })}
+            </Box>
+
+            {/* Pulsante finale: porta alla pagina con tutti i progetti in dettaglio */}
+            <Box sx={{ textAlign: "center", mt: 5 }}>
+              <Button
+                variant="contained"
+                component="a"
+                href={PROJECTS_ROUTE}
+                endIcon={<FaArrowRight />}
+                sx={{
+                  borderRadius: 999,
+                  px: 4,
+                  py: 1,
+                  background: "linear-gradient(45deg, #00e5ff, #2979ff)",
+                  "&:hover": {
+                    background: "linear-gradient(45deg, #2979ff, #00e5ff)",
+                  },
+                }}
+              >
+                {t("projects.see_all")}
+              </Button>
+            </Box>
           </motion.div>
         </Container>
       </Box>
 
-      {/* Nuova Sezione Progetti 3D */}
+      {/* Sezione Progetti 3D */}
       <Box
         id="projects3d"
         sx={{
@@ -924,17 +707,17 @@ function App() {
                 maxWidth: "800px",
                 mx: "auto",
                 fontSize: {
-                  xs: "17px", // For extra-small screens
-                  sm: "17.5px", // For small screens
-                  md: "21px", // For medium screens / tablets
-                  lg: "22px", // For large screens
-                  xl: "23px", // For extra-large screens
+                  xs: "17px", // smartphone
+                  sm: "17.5px", // smartphone grandi
+                  md: "21px", // tablet
+                  lg: "22px", // desktop
+                  xl: "23px", // schermi molto grandi
                 },
               }}
             >
               {t("projects3d.description")}
             </Typography>
-            {/* Galleria orizzontale scrollabile */}
+            {/* Segnaposto in attesa della galleria */}
             <Typography
               variant="h5"
               sx={{
@@ -947,8 +730,13 @@ function App() {
                 mb: 2,
               }}
             >
-              Lavori in corso... Galleria di immagini in arrivo!
+              {t("projects3d.coming_soon")}
             </Typography>
+            {/*
+              Galleria orizzontale scrollabile (disattivata, in lavorazione).
+              Per riattivarla: decommenta il blocco, importa `galleryImages` da
+              "./data/projects" e le icone FaChevronLeft / FaChevronRight da "react-icons/fa".
+            */}
             {/* <Box sx={{ position: "relative", width: "100%", mt: 3, mb: 4 }}>
               <IconButton
                 onClick={scrollGalleryLeft}
@@ -1100,7 +888,7 @@ function App() {
             </Typography>
 
             <Grid container spacing={4} justifyContent="center">
-              <Grid item xs={12} md={8} lg={6}>
+              <Grid size={{ xs: 12, md: 8, lg: 6 }}>
                 <Paper
                   elevation={10}
                   sx={{
@@ -1121,6 +909,7 @@ function App() {
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
+                    {/* Contatto via email */}
                     <Button
                       variant="contained"
                       startIcon={<FaEnvelope />}
@@ -1137,11 +926,13 @@ function App() {
                       {t("contact.contact_by_email_button")}
                     </Button>
 
+                    {/* Profilo LinkedIn */}
                     <Button
                       variant="contained"
                       startIcon={<FaLinkedin />}
                       href="https://linkedin.com/in/alessio-chiocchetti-283777b7"
                       target="_blank"
+                      rel="noopener noreferrer"
                       sx={{
                         py: 1.5,
                         bgcolor: "#0e76a8",
@@ -1153,10 +944,12 @@ function App() {
                       {t("contact.contact_by_linkedin_button")}
                     </Button>
 
+                    {/* Curriculum in PDF (file in src/assets/CV.pdf) */}
                     <Button
                       variant="outlined"
                       href={cv}
                       target="_blank"
+                      rel="noopener noreferrer"
                       sx={{
                         py: 1.5,
                         color: "#90caf9",
